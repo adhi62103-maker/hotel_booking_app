@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "590341871612",
+    "project_id": "hotel-app-login-based-role",
+    "storage_bucket": "hotel-app-login-based-role.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590341871612:android:fd476e0a06bd5b92054479",
+        "android_client_info": {
+          "package_name": "com.example.hotel_booking_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALUJZlPw1EIphSnWPo7PI3J4fEa73EHRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
