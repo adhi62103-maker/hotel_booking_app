@@ -42,14 +42,13 @@ Future<void> userregister({
       "image": profileimage,
     });
     ScaffoldMessenger.of(context)
-  ..removeCurrentSnackBar()
-  ..showSnackBar(
-    SnackBar(
-      content: Text("Login as user successfully"),
-      backgroundColor: Colors.blueGrey,
-    ),
-  );
-
+      ..removeCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text("Login as user successfully"),
+          backgroundColor: Colors.blueGrey,
+        ),
+      );
   } catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(e.toString()), backgroundColor: Colors.blueGrey),
@@ -75,19 +74,19 @@ Future<void> hotelregister({
     User? user = userCredential.user;
     await FirebaseFirestore.instance.collection("users").doc(user!.uid).set({
       "name": name,
-      "email":email,
-      "role": role,
-      "proof":uploapProof
-    });
-   ScaffoldMessenger.of(context)
-  ..removeCurrentSnackBar()
-  ..showSnackBar(
-    SnackBar(
-      content: Text("Login as hotel successflly"),
-      backgroundColor: Colors.blueGrey,
-    ),
-  );
+      "email": email,
 
+      "role": role,
+      "proof": uploapProof,
+    });
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text("Login as hotel successflly"),
+          backgroundColor: Colors.blueGrey,
+        ),
+      );
   } catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(e.toString()), backgroundColor: Colors.blueGrey),
@@ -96,14 +95,43 @@ Future<void> hotelregister({
   }
 }
 
-Future<String> login({required String email, required String password}) async {
-  UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(
-    email: email,
-    password: password,
-  );
-  DocumentSnapshot snapshot = await FirebaseFirestore.instance
-      .collection("users")
-      .doc(user.user!.uid)
-      .get();
-  return snapshot["role"];
+Future<String> login({
+  required String email,
+  required String password,
+  required BuildContext context,
+}) async {
+  try {
+    UserCredential user = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.user!.uid)
+        .get();
+
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text("login successfully")));
+    return snapshot["role"];
+  } catch (e) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(e.toString())));
+    rethrow;
+  }
+}
+
+Future<void> forgotfassword({
+  required String email,
+  required BuildContext context,
+}) async {
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text("Check your inbox")));
+  } catch (e) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(e.toString())));
+  }
 }
